@@ -1,6 +1,6 @@
 package com.joseluisestevez.ms.app.students.models.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,12 +32,12 @@ public class Student {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_at")
-    private LocalDateTime createAt;
+    private Date createAt;
 
     @PrePersist
     public void prePersist() {
         // You can use the @CreationTimestamp and @UpdateTimestamp attribute annotation
-        this.createAt = LocalDateTime.now();
+        this.createAt = new Date();
     }
 
 }
