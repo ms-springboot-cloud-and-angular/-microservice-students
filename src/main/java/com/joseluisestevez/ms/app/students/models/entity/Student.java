@@ -1,4 +1,4 @@
-package com.joseluisestevez.ms.app.students.entity.models;
+package com.joseluisestevez.ms.app.students.models.entity;
 
 import java.time.LocalDateTime;
 
