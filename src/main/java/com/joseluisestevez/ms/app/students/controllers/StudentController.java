@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.joseluisestevez.ms.app.students.models.entity.Student;
 import com.joseluisestevez.ms.app.students.services.StudentService;
 import com.joseluisestevez.ms.commons.controllers.CommonController;
+import com.joseluisestevez.ms.commons.students.models.entity.Student;
 
 @RestController
 public class StudentController extends CommonController<Student, StudentService> {
