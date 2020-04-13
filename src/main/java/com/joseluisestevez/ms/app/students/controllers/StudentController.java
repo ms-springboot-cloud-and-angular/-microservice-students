@@ -1,5 +1,6 @@
 package com.joseluisestevez.ms.app.students.controllers;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.joseluisestevez.ms.app.students.services.StudentService;
 import com.joseluisestevez.ms.commons.controllers.CommonController;
@@ -42,6 +46,39 @@ public class StudentController extends CommonController<Student, StudentService>
     @GetMapping("/filter/{name}")
     public ResponseEntity<?> filter(@PathVariable String name) {
         return ResponseEntity.ok(service.findByNameOrLastname(name));
+    }
+
+    @PostMapping("/create-with-photo")
+    public ResponseEntity<?> createWithPhoto(@Valid Student student, BindingResult result, @RequestParam MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            student.setPhoto(file.getBytes());
+        }
+        return super.create(student, result);
+    }
+
+    @PutMapping("/edit-with-photo/{id}")
+    public ResponseEntity<?> editWithPhoto(@PathVariable Long id, @Valid Student student, BindingResult result, @RequestParam MultipartFile file)
+            throws IOException {
+        if (result.hasErrors()) {
+            return this.validate(result);
+        }
+        Optional<Student> optional = service.findById(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Student currentStudent = optional.get();
+        currentStudent.setEmail(student.getEmail());
+        currentStudent.setName(student.getName());
+        currentStudent.setLastname(student.getLastname());
+
+        if (!file.isEmpty()) {
+            currentStudent.setPhoto(file.getBytes());
+        }
+
+        Student studentSaved = service.save(currentStudent);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentSaved);
     }
 
 }
