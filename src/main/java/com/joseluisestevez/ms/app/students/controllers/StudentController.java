@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,17 @@ import com.joseluisestevez.ms.commons.students.models.entity.Student;
 
 @RestController
 public class StudentController extends CommonController<Student, StudentService> {
+
+    @GetMapping("/uploads/photo/{id}")
+    public ResponseEntity<?> viewPhoto(@PathVariable Long id) {
+        Optional<Student> optional = service.findById(id);
+        if (optional.isEmpty() || optional.get().getPhoto() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource image = new ByteArrayResource(optional.get().getPhoto());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> edit(@PathVariable Long id, @Valid @RequestBody Student student, BindingResult result) {
