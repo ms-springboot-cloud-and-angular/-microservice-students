@@ -11,4 +11,6 @@ public interface StudentService extends CommonService<Student> {
 
     Iterable<Student> findAllById(Iterable<Long> ids);
 
+    void deleteCourseStudentById(Long id);
+
 }
