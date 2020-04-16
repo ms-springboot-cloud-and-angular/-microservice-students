@@ -18,4 +18,10 @@ public class StudentServiceImpl extends CommonServiceImpl<Student, StudentReposi
         return repository.findByNameOrLastname(name);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Iterable<Student> findAllById(Iterable<Long> ids) {
+        return repository.findAllById(ids);
+    }
+
 }

@@ -27,6 +27,11 @@ import com.joseluisestevez.ms.commons.students.models.entity.Student;
 @RestController
 public class StudentController extends CommonController<Student, StudentService> {
 
+    @GetMapping("/students-per-course")
+    public ResponseEntity<?> getStudentsPerCourse(@RequestParam Iterable<Long> ids) {
+        return ResponseEntity.ok(service.findAllById(ids));
+    }
+
     @GetMapping("/uploads/photo/{id}")
     public ResponseEntity<?> viewPhoto(@PathVariable Long id) {
         Optional<Student> optional = service.findById(id);

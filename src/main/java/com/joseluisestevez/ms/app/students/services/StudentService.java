@@ -9,4 +9,6 @@ public interface StudentService extends CommonService<Student> {
 
     List<Student> findByNameOrLastname(String name);
 
+    Iterable<Student> findAllById(Iterable<Long> ids);
+
 }
