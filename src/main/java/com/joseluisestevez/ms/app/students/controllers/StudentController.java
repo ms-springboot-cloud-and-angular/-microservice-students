@@ -28,7 +28,7 @@ import com.joseluisestevez.ms.commons.students.models.entity.Student;
 public class StudentController extends CommonController<Student, StudentService> {
 
     @GetMapping("/students-per-course")
-    public ResponseEntity<?> getStudentsPerCourse(@RequestParam Iterable<Long> ids) {
+    public ResponseEntity<?> getStudentsPerCourse(@RequestBody Iterable<Long> ids) {
         return ResponseEntity.ok(service.findAllById(ids));
     }
 
