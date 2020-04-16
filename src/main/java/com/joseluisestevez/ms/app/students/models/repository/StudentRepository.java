@@ -9,7 +9,7 @@ import com.joseluisestevez.ms.commons.students.models.entity.Student;
 
 public interface StudentRepository extends PagingAndSortingRepository<Student, Long> {
 
-    @Query("SELECT a FROM Student a WHERE a.name LIKE %?1% or a.lastname LIKE %?1%")
+    @Query("SELECT a FROM Student a WHERE upper(a.name) LIKE upper(concat('%', ?1, '%')) or upper(a.lastname) LIKE upper(concat('%', ?1, '%'))")
     List<Student> findByNameOrLastname(String name);
 
 }
