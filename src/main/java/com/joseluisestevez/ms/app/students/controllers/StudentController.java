@@ -1,6 +1,7 @@
 package com.joseluisestevez.ms.app.students.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ import com.joseluisestevez.ms.commons.students.models.entity.Student;
 public class StudentController extends CommonController<Student, StudentService> {
 
     @GetMapping("/students-per-course")
-    public ResponseEntity<?> getStudentsPerCourse(@RequestBody Iterable<Long> ids) {
+    public ResponseEntity<?> getStudentsPerCourse(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.findAllById(ids));
     }
 
